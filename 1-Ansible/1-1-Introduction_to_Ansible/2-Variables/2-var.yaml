@@ -69,3 +69,11 @@
         state: "{{ service_config.mysql.state }}" # accessing the dictionary key
         enabled: "{{ service_config.mysql.enabled }}" access the dictionary keys
       tags: services
+
+    - name: Run a simple shell command and register the output
+      ansible.builtin.shell: "echo Hello, Ansible!"
+      register: hello_output
+
+    - name: Print the registered variable
+      debug:
+        msg: "The output of the shell command is: {{ hello_output.stdout }}" # print standard output
