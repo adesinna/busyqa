@@ -12,3 +12,7 @@ Then checks the group_vars/group_name
 
 Then lastly checks groups_vars/all
 
+if you want to use a local variable that is associate with a specific host
+in another place use
+
+{{hostvars[name_of_host].variable}}

@@ -19,3 +19,7 @@
     - name: Print the username
       debug:
         msg: "{{ output.name }}"
+
+    - name: Print the username
+      debug:
+        msg: "{{ hostvar["web02"].username }}"
