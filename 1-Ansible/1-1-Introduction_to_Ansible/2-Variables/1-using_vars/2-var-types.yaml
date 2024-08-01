@@ -26,16 +26,13 @@
       debug:  # debug allows you to print out variables
         msg: "The server name is: {{ engineer_name }}"
 
-
     - name: Print maximum memory usage
       debug:
         msg: "The maximum memory usage is set to: {{ max_memory_usage }} GB"
 
-
     - name: Print port number
       debug:
         msg: "The port number for the service is: {{ port_number }}"
-
 
     - name: Ensure firewall is enabled
       when: enable_firewall  # this is if condition
@@ -45,7 +42,6 @@
         state: enabled
       tags: firewall
 
-
     - name: Allow incoming traffic from specific IPs
       when: enable_firewall  # if condition
       ansible.builtin.ufw:
@@ -54,7 +50,6 @@
         source: "{{ item }}"
       loop: "{{ allowed_ips }}"  # Loop over the list of allowed IPs, for i in the list
       tags: firewall
-
 
     - name: Ensure nginx service is configured correctly
       ansible.builtin.systemd:
@@ -67,7 +62,7 @@
       ansible.builtin.systemd:
         name: mysql
         state: "{{ service_config.mysql.state }}" # accessing the dictionary key
-        enabled: "{{ service_config.mysql.enabled }}" access the dictionary keys
+        enabled: "{{ service_config.mysql.enabled }}" # access the dictionary keys
       tags: services
 
     - name: Run a simple shell command and register the output
@@ -77,3 +72,19 @@
     - name: Print the registered variable
       debug:
         msg: "The output of the shell command is: {{ hello_output.stdout }}" # print standard output
+
+    - name: Ensure firewall is enabled with 'and' condition
+      when: enable_firewall and port_number == 8080
+      ansible.builtin.ufw:
+        rule: allow
+        port: "{{ port_number }}"
+        state: enabled
+      tags: firewall_and
+
+    - name: Ensure firewall is enabled with 'or' condition
+      when: enable_firewall or max_memory_usage > 10
+      ansible.builtin.ufw:
+        rule: allow
+        port: "{{ port_number }}"
+        state: enabled
+      tags: firewall_or

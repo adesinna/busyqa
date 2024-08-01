@@ -11,9 +11,6 @@ They can be
     lists
     dictionaries
 
-Variable Precedences
-
-    envs  variables > playbook variables > host variables > group variables
 
 
 

@@ -40,3 +40,26 @@ Configuration settings
     now you can execute play book
 
     ansible-playbook name_of_yaml
+
+
+Verifying playbooks
+
+    check mode:
+        It will tell what it would do and no changes would be made
+
+           ansible-playbook name_of_yaml --check
+
+    diff mode:
+        It will show you before and after
+
+            ansible-playbook name_of_yaml --check --diff
+
+    syntax check mode:
+        Checks of error
+
+        ansible-playbook name_of_yaml --syntax-check
+
+
+Ansible-lint: # you have to install ansible lint
+    ansible-lint playbook_name
+
