@@ -1,6 +1,6 @@
 all:
   hosts:
-    extra:
+    extra2:
       ansible_host: extra2.company.com # this could be there private IP
       ansible_connection: ssh
       ansible_user: root

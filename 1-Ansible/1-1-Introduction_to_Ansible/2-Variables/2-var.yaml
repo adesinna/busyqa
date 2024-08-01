@@ -1,0 +1,71 @@
+---
+- name: Demonstrate various variable types with real-world applications
+  hosts: webservers
+  become: true  # sudo privilege
+  vars:
+    engineer_name: "Adesina"
+    max_memory_usage: 8 # 8G
+    port_number: 8080
+    enable_firewall: true        # Determines if firewall rules should be applied or not
+
+    allowed_ips:   # this is a list
+      - 192.168.1.1
+      - 192.168.1.2
+      - 192.168.1.3
+
+    service_config: # this is a dictionary
+      nginx:
+        state: started
+        enabled: true
+      mysql:
+        state: stopped
+        enabled: false
+
+  tasks:
+    - name: Print server name
+      debug:  # debug allows you to print out variables
+        msg: "The server name is: {{ engineer_name }}"
+
+
+    - name: Print maximum memory usage
+      debug:
+        msg: "The maximum memory usage is set to: {{ max_memory_usage }} GB"
+
+
+    - name: Print port number
+      debug:
+        msg: "The port number for the service is: {{ port_number }}"
+
+
+    - name: Ensure firewall is enabled
+      when: enable_firewall  # this is if condition
+      ansible.builtin.ufw:
+        rule: allow
+        port: "{{ port_number }}"
+        state: enabled
+      tags: firewall
+
+
+    - name: Allow incoming traffic from specific IPs
+      when: enable_firewall  # if condition
+      ansible.builtin.ufw:
+        rule: allow
+        port: "{{ port_number }}"
+        source: "{{ item }}"
+      loop: "{{ allowed_ips }}"  # Loop over the list of allowed IPs, for i in the list
+      tags: firewall
+
+
+    - name: Ensure nginx service is configured correctly
+      ansible.builtin.systemd:
+        name: nginx
+        state: "{{ service_config.nginx.state }}"
+        enabled: "{{ service_config.nginx.enabled }}"
+      tags: services
+
+    - name: Ensure mysql service is configured correctly
+      ansible.builtin.systemd:
+        name: mysql
+        state: "{{ service_config.mysql.state }}" # accessing the dictionary key
+        enabled: "{{ service_config.mysql.enabled }}" access the dictionary keys
+      tags: services
