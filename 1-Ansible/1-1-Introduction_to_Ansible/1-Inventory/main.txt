@@ -5,4 +5,15 @@ Inventory file is where all the host information is kept.
 
 The default inventory file is /etc/ansible/hosts
 
+
 If you do not provide on it would use the default inventory file
+
+ansible web1 -m ping -i inventory
+
+ansible web1 -m ping -i inventory
+
+ansible db -m ping -i inventory
+
+ansible "web*" -m ping -i inventory  # pings all with the name web
+
+ansible all -m ping -i inventory  #

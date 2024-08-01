@@ -1,0 +1,45 @@
+---
+vars:
+  shared_variable: 100  # This variable can be used by both plays
+
+- name: First play
+  hosts: webservers
+  vars:
+    play1_var: 50  # This variable is specific to the first play
+  tasks:
+    - name: Run a shell command on webservers
+      shell: echo "Running on webservers"
+      register: command_output  # Register the output of this task
+
+    - name: Print the registered variable in the first play
+      debug:
+        msg: "The command output is: {{ command_output.stdout }}"
+
+    - name: Print the shared variable in the first play
+      debug:
+        msg: "The shared variable value is: {{ shared_variable }}"
+
+    - name: Print the play-specific variable in the first play
+      debug:
+        msg: "The play1_var value is: {{ play1_var }}"
+
+- name: Second play
+  hosts: dbservers # it get the host from the inventory file
+  vars:
+    play2_var: 75  # This variable is specific to the second play
+  tasks:
+    - name: Run a different shell command on dbservers
+      shell: echo "Running on dbservers"
+      register: local_command_output
+
+    - name: Print the registered variable in the second play
+      debug:
+        msg: "The local command output is: {{ local_command_output.stdout }}"
+
+    - name: Print the shared variable in the second play
+      debug:
+        msg: "The shared variable value is: {{ shared_variable }}"
+
+    - name: Print the play-specific variable in the second play
+      debug:
+        msg: "The play2_var value is: {{ play2_var }}"

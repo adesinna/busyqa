@@ -1,0 +1,19 @@
+Variables are use to store information that varies.
+
+Variables can be use in multiple ways
+
+They can be
+
+    strings
+    floats
+    integers
+    booleans
+    lists
+    dictionaries
+
+Variable Precedences
+
+    envs  variables > playbook variables > host variables > group variables
+
+
+

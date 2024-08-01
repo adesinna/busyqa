@@ -1,1 +1,42 @@
-This is a course that would introduce ansible thorougly 
+Creating Inventory File:
+    use the inventory
+
+    make sure you put the key in the location of the inventory and do chmod 400 key # do not copy the %
+
+    sudo -i
+
+
+    cd /etc/ansible/
+
+
+    ansible-config init --disabled > ansible.cfg # this will generate the configuration file  but uncomment that line first
+
+    vim /etc/ansible/ansible.cfg
+
+    host_key_checking = False # remove the semicolon at the beginning
+
+    Now run ansible as ubuntu user
+
+
+
+Configuration settings
+    When you want to change defaults, we use configuration file
+
+    Priority:
+    ANSIBLE_CONFIG(environment variable set)
+
+    ansible.cfg(in the current directory)
+
+    ~/.ansible.cfg(the hidden file in home directory)
+
+    /etc/ansible/ansible.cfg
+
+    Go to the documentation and check the settings for each configuration
+
+    Creating your own configuration file:
+
+    ansible.cfg
+
+    now you can execute play book
+
+    ansible-playbook name_of_yaml
