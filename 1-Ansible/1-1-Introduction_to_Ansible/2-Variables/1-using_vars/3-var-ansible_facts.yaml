@@ -1,5 +1,5 @@
 ---
-- name: Demonstrate Ansible facts
+- name: Demonstrate Ansible facts  # system information
   hosts: dbservers
   gather_facts: yes  # Enable fact gathering, this is enabled by default
 
