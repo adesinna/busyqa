@@ -1,0 +1,48 @@
+all:
+  hosts:
+    extra:
+      ansible_host: extra2.company.com # this could be there private IP
+      ansible_connection: ssh
+      ansible_user: root
+      ansible_ssh_pass: ExtraPass2!
+  children:
+    webservers:
+      hosts:
+        web1:
+          ansible_host: server1.company.com
+          ansible_connection: ssh
+          ansible_user: root
+          ansible_ssh_pass: Password123!
+        web3:
+          ansible_host: server3.company.com
+          ansible_connection: ssh
+          ansible_user: root
+          ansible_ssh_pass: Password123!
+    appservers:
+      hosts:
+        web2:
+          ansible_host: server2.company.com
+          ansible_connection: ssh
+          ansible_user: root
+          ansible_ssh_pass: Password123!
+        web1:
+          ansible_host: server1.company.com
+          ansible_connection: ssh
+          ansible_user: root
+          ansible_ssh_pass: Password123!
+    databases:
+      hosts:
+        db1:
+          ansible_host: server4.company.com
+          ansible_connection: winrm
+          ansible_user: administrator
+          ansible_ssh_pass: Dbp@ss123!
+        extra1:
+          ansible_host: extra1.company.com
+          ansible_connection: ssh
+          ansible_user: root
+          ansible_ssh_pass: ExtraPass1!
+    service-app:
+      children:
+        webservers:
+        appservers:

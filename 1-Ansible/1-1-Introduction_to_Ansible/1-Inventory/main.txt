@@ -1,0 +1,8 @@
+Ansible can control multiple servers, it uses ssh for linux and winrm for windows
+It does it need agent for it to work on the machine.
+
+Inventory file is where all the host information is kept.
+
+The default inventory file is /etc/ansible/hosts
+
+If you do not provide on it would use the default inventory file
