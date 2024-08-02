@@ -74,7 +74,7 @@
         msg: "The output of the shell command is: {{ hello_output.stdout }}" # print standard output
 
     - name: Ensure firewall is enabled with 'and' condition
-      when: enable_firewall and port_number == 8080
+      when: enable_firewall == True and port_number == 8080
       ansible.builtin.ufw:
         rule: allow
         port: "{{ port_number }}"
@@ -82,7 +82,7 @@
       tags: firewall_and
 
     - name: Ensure firewall is enabled with 'or' condition
-      when: enable_firewall or max_memory_usage > 10
+      when: enable_firewall == False or max_memory_usage > 10
       ansible.builtin.ufw:
         rule: allow
         port: "{{ port_number }}"

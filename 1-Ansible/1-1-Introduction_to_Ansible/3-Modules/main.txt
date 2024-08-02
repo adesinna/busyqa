@@ -1,0 +1,58 @@
+
+Ansible modules are the building blocks of Ansible's functionality. They are units of code that perform specific
+tasks on the managed hosts. Each module is designed to handle a particular aspect of system administration,
+application deployment, configuration management, or cloud provisioning.
+
+Key Features of Ansible Modules:
+Task Execution:
+    Modules are executed by Ansible playbooks to perform tasks such as managing packages, services, files, and more.
+
+Idempotency:
+
+   Modules are designed to be idempotent, meaning that running the same module multiple times will produce the same
+   result without causing unintended side effects.
+
+
+Cross-Platform:
+    Modules are available for various platforms, including Linux, Windows, and network devices.
+
+Extensible:
+    Users can write their own custom modules if the existing ones do not meet their needs.
+
+
+Common Types of Ansible Modules:
+    Command and Shell Modules:
+
+        command: Executes a command on the remote host.
+        shell: Executes a command through the shell on the remote host.
+
+    File and Directory Modules:
+
+        file: Manages file and directory properties.
+        copy: Copies files to remote locations.
+        template: Processes Jinja2 templates and copies them to remote locations.
+
+    Package Management Modules:
+
+        apt: Manages packages with the APT package manager (Debian/Ubuntu).
+        yum: Manages packages with the YUM package manager (RHEL/CentOS).
+
+    Service Management Modules:
+
+        service: Manages services on remote hosts.
+        systemd: Manages services using systemd.
+
+    User and Group Management Modules:
+
+        user: Manages user accounts.
+        group: Manages group accounts.
+
+    Cloud and Infrastructure Modules:
+
+        ec2: Manages AWS EC2 instances.
+        gcp_compute: Manages Google Cloud Compute Engine instances.\
+
+    Networking Modules:
+
+        ios_config: Manages Cisco IOS configuration.
+        net_vlan: Manages VLANs on network devices.

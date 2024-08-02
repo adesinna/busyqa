@@ -61,5 +61,19 @@ Verifying playbooks
 
 
 Ansible-lint: # you have to install ansible lint
-    ansible-lint playbook_name
+    ansible-lint playbook_name # allows you to debug errors
+
+
+
+Ansible Handlers:
+    Handlers ensure the machines services all always restarted so the effects
+    of the changes can take place.
+
+
+Ansible Roles:
+    Roles are assign to machine to make them do a specific task.
+    You can write a role(set of code) and assign it to a machine.
+    It makes sure work reusable just like functions in python
+    OR like docker images
+
 
