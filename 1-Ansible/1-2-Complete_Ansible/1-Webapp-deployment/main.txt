@@ -1,0 +1,10 @@
+This is a flask application running with mysql database all on one client machine
+
+We setup a terraform code that would provision one control and one client machine
+
+systemctl status mysql
+
+mysql -u db_user -p
+
+SHOW DATABASES;
+

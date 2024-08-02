@@ -1,0 +1,34 @@
+---
+- name: Install and configure MySQL
+  hosts: web01
+  become: yes
+  tasks:
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: yes
+
+    - name: Install MySQL server and client
+      ansible.builtin.apt:
+        name:
+          - mysql-server
+          - mysql-client
+        state: present
+
+    - name: Ensure MySQL service is running
+      ansible.builtin.service:
+        name: mysql
+        state: started
+        enabled: yes
+
+    - name: Create Application Database
+      community.mysql.mysql_db:
+        name: "{{ db_name }}"
+        state: present
+
+    - name: Create Application DB User
+      community.mysql.mysql_user:
+        name: "{{ db_user }}"
+        password: "{{ db_password }}"
+        priv: '*.*:ALL'
+        host: '%'
+        state: present

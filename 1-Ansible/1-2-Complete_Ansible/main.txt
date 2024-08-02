@@ -1,0 +1,4 @@
+There are a lot of ways you can setup your environment using terraform
+
+One machine control machine
+Three other client machine
