@@ -1,0 +1,50 @@
+---
+- name: Configure Nginx as a reverse proxy for Flask application
+  hosts: web01
+  become: yes
+  tasks:
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: yes
+
+    - name: Install Nginx
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+
+    - name: Remove default Nginx configuration
+      ansible.builtin.file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+
+    - name: Configure Nginx reverse proxy
+      ansible.builtin.template:
+        src: nginx_flask_proxy.j2
+        dest: "{{ nginx_conf_path }}"
+        mode: '0644'
+
+    - name: Create symlink for Nginx site
+      ansible.builtin.file:
+        src: "{{ nginx_conf_path }}"
+        dest: "{{ nginx_symlink_path }}"
+        state: link
+
+    - name: Test Nginx configuration
+      ansible.builtin.command:
+        cmd: nginx -t
+      register: nginx_test
+      failed_when: "'test is successful' not in nginx_test.stderr"
+
+    - name: Print Nginx test result
+      ansible.builtin.debug:
+        msg: "{{ nginx_test.stderr }}"
+
+    - name: Restart Nginx to apply changes
+      ansible.builtin.service:
+        name: nginx
+        state: restarted
+
+    - name: Ensure Nginx is enabled
+      ansible.builtin.service:
+        name: nginx
+        enabled: yes

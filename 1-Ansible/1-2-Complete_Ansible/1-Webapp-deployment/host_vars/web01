@@ -5,3 +5,6 @@ venv_path: /opt/venv
 app_path: /opt/app.py
 db_host: localhost
 db_port: 3306
+flask_app_port: 5000
+nginx_conf_path: /etc/nginx/sites-available/flask_proxy
+nginx_symlink_path: /etc/nginx/sites-enabled/flask_proxy
