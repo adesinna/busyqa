@@ -1,0 +1,10 @@
+Ansible Roles:
+    Roles are assign to machine to make them do a specific task.
+    You can write a role(set of code) and assign it to a machine.
+    It makes sure work reusable just like functions/classes in python
+    OR like docker images
+
+
+    mkdir -p roles/db/tasks roles/nginx/tasks roles/app/tasks
+
+    touch roles/db/tasks/main.yaml roles/nginx/tasks/main.yaml roles/app/tasks/main.yaml
