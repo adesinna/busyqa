@@ -19,3 +19,44 @@ What is a docker container?
 Images are like classes in python while the containers are like objects in the class.
 
 So you can get many objects from the classes, and the class give the footprint of the object.
+
+
+
+Namespace tricks the container to make it think it has its on process but it is a lie
+while Cgroups restricts the resource it can use.
+
+
+Docker Storage
+    When docker is installed it create a folder /var/lib/docker this dockers
+    data related to docker on the hosts like images, container, volumes etc
+
+    It gets the information about the layers when you build from the local storage, so
+    it does not need to update it from dockerhub.
+
+    Volume and Bind Mount:
+
+        When it is mounted to the default volume of docker it is called volume mount
+        and you any other path on the host it is called bind mount.
+
+
+    docker run -d --name app2 -p 80:5000 --env-file .env --mount type=bind,source=$(pwd)/templates,target=/app/templates apptest:v1
+
+    docker volume ls # list all volumes
+
+    docker volume rm volume_name
+
+    docker volume prune # remove unused volume
+    docker volume prune -f # forcefully
+
+    Remove all volumes # terminate all container first
+        docker volume rm $(docker volume ls -q)
+
+
+Docker Network
+    It allows containers to communicate within the same network
+
+
+
+
+Docker Network
+    Network is like subnets

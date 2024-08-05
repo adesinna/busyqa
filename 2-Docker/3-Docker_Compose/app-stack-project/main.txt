@@ -1,0 +1,14 @@
+Docker allows you to run multiple container at once
+
+Look at the app image
+
+steps
+
+1. Run the redis
+2. Run the postgres
+3. Run voting app
+4. Run result app
+5. Run the worker app
+
+
+

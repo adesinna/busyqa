@@ -56,6 +56,7 @@ How to build Images
             docker push adesinna/image_name:V1
 
 
+We used a multi-stage docker file for some apps that require building first like java
 
 
 

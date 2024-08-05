@@ -1,0 +1,63 @@
+version: "3.0"
+
+services:
+    redis:
+        image: redis # this image is available on docker hub
+        environment:
+            - ROOT_PASSWORD=shanana
+        ports:
+            - "5432:5432" # the port mapping
+        volumes:
+            - redis-data-backup:/var/lib/volumes # attaching the volume
+
+
+    db:
+        image: postgres:9.4 # this image is available on docker hub
+        environment:
+            - ROOT_PASSWORD=shanana # you can build this as env
+        ports:
+            - "6379:6379" # the port mapping
+        volumes:
+            - db-data-backup:/var/lib/volumes # attaching the volume
+
+    vote:
+        build:
+            context: ./vote # this folder is where the dockerfile for the "vote" is
+        restart: always # to make sure it always restarts
+        ports:
+            - "80:80" # the port mapping
+        container_name: vote-api # name of the container
+        depends_on:
+            - redis
+
+    result:
+        build:
+            context: ./result # this folder is where the dockerfile for the "result" is
+        restart: always
+        ports:
+            - "8080:8080"
+        container_name: result-api
+        depends_on:
+            - db
+    worker:
+        build:
+            context: ./worker # this folder is where the dockerfile for the "worker" is
+        restart: always
+        ports:
+            - "8081:8081"
+        container_name: worker-api
+        depends_on:
+            - db
+            - redis
+
+
+
+volumes:
+  db-data-backup: {} # creating volume
+  redis-data-backup: {} # creating volume
+
+
+
+
+
+
