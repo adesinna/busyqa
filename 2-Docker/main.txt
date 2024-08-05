@@ -17,3 +17,5 @@ What is a docker container?
 
 
 Images are like classes in python while the containers are like objects in the class.
+
+So you can get many objects from the classes, and the class give the footprint of the object.

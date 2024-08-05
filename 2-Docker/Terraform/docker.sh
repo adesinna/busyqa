@@ -29,5 +29,7 @@ sudo docker --version
 # Optional: Manage Docker as a non-root user
 sudo groupadd docker
 sudo usermod -aG docker $USER
+sudo usermod -aG docker ubuntu # incase it is not ubuntu that runs it
+
 
 echo "Docker installation completed. Log out and log back in to manage Docker as a non-root user."

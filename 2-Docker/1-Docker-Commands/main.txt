@@ -1,3 +1,103 @@
-docker run nginx
+docker pull image
 
-    This would check whether the image (class) is
+    This would go to dockerhub and pull down the image if its exits
+
+
+docker run image
+
+    This would check whether the image exits locally, if not it pulls it from
+    dockerhub and run the container
+
+    # Run an Nginx container in detached mode
+     docker run -d --name name_of_container -p host_port:container_port image_name
+
+     docker run -d --name my_nginx -p 8080:80 nginx
+
+     docker exec -it <container_id_or_name> /bin/bash # to enter the container os
+
+
+
+
+
+
+docker ps
+
+    This would show all running container
+
+
+docker ps -a
+
+    This would show all containers including the terminated ones
+
+
+docker stop container_id/name
+
+    This would stop the container
+
+    To stop all
+         docker stop $(docker ps -q)
+
+
+
+docker rm container_id/name
+
+    This would remove the container and make sure it does not consume space
+
+    To remove all stopped and running containers
+        docker rm $(docker ps -a -q)
+
+
+    To do both
+        docker stop $(docker ps -q) && docker rm $(docker ps -a -q)
+
+    To remove all stopped containers
+
+        docker rm $(docker ps -a -q --filter "status=exited")
+
+
+docker images
+
+    Shows you all the images
+
+
+docker rmi image_name
+    This would remove the image
+
+
+
+A docker container is only alive as the process in it
+
+    docker run ubuntu sleep 60  # it would run for 60sec and die
+
+
+docker run image:tag
+
+    This tag is like the version, if no tag it would just get the latest
+
+docker run -it image_id/name
+
+    This would give a tag
+
+docker run -it image_name/id
+
+    If the container requires a prompt, this would allow you to supply value
+
+docker inspect container
+
+    This gives you details about the contianer
+
+    curl ip_of_container # this can only be done from the docker host
+
+
+docker logs container_id
+
+    This shows the logs of the container
+
+    docker logs -f container_id
+        This helps you see it in real time
+
+
+Docker Volumes
+    This allows you to persist data, incase the container dies another can pick
+
+    docker run -v path_on_host:path_in_container image
