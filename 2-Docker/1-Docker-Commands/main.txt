@@ -63,6 +63,10 @@ docker images
 docker rmi image_name
     This would remove the image
 
+    To remove all images
+        docker rmi -f $(docker images -q)
+
+
 
 
 A docker container is only alive as the process in it

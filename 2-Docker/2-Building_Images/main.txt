@@ -1,0 +1,64 @@
+To dockerize your own application, you must create a docker file and
+do it the way you would do it manually.
+
+Most languages have their on way and base images, just build on that
+
+Terminologies
+
+
+FROM: This is  the base image that you are building from
+
+LABELS: This adds metadata to an image, like a tag
+
+RUN: These are the shell commands it will execute
+
+CMD: The command you will run
+
+ADD/COPY: Adds files and folder into the image
+
+ENTRYPOINT: Allows you to configure the container that will run executables
+
+VOLUME: Creates a mount point and marks it as holding externally mounted volumes
+
+EXPOSE: Containers listens on the port specified here
+
+ENV: To set environment variable
+
+USER: Sets the username
+
+WORKDIR: Set a working directory, there is where the command will run
+
+ARG: Variables the users can pass at the build time
+
+ONBUILD: Adds to the image a trigger instruction to be executed at a later time
+
+
+
+
+How to build Images
+
+    1. Download the source code
+
+    2. Create a docker file in that folder
+
+    3. docker build -t image_name .  # you can add .dockerignore file
+
+    4. run the image locally
+
+    5. Tag and push to dockerhub
+
+            docker build -t adesinna/image_name:V1 . # tag it
+
+            docker login
+
+            Enter password and username
+
+            docker push adesinna/image_name:V1
+
+
+
+
+
+
+
+
