@@ -1,0 +1,3 @@
+docker run nginx
+
+    This would check whether the image (class) is

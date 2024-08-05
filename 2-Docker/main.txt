@@ -1,0 +1,19 @@
+Containers are completely isolated environments which containers everything that an application needs to run.
+
+So as long as anyone has docker, they would be able to run it
+
+The image shows the difference between VM and Docker containers
+
+What is a docker image ?
+    A Docker image is a lightweight, standalone, and immutable file that contains the source code,
+    libraries, dependencies, tools, and other files necessary for an application to run.
+    It serves as a blueprint for creating Docker containers.
+
+What is a docker container?
+
+    A Docker container is a runnable instance of a Docker image.
+    It encapsulates the application and its dependencies, running as an isolated process on the host operating system.
+    Containers can be started, stopped, moved, and deleted.
+
+
+Images are like classes in python while the containers are like objects in the class.
