@@ -1,0 +1,20 @@
+This is a 3 tier project that consisting of
+    - nginx
+    - react frontend
+    - java as backend
+    - Mongodb as database
+
+    FrontEND code
+
+    git clone https://github.com/GavinLonDigital/movie-gold-v1.git
+
+    BackEnd code
+
+    git clone https://github.com/fhsinchy/movieist.git
+
+    Data:
+        Is in movie-data folder
+
+
+
+docker-compose up -d

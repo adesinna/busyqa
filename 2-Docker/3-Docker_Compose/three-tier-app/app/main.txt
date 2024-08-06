@@ -1,8 +1,0 @@
-docker build -t apptest:v1 .
-
-
-docker run -d --name app2 -p 80:5000 --env-file .env apptest:v1
-
-or
-
-docker run -d --name app2 -p 80:5000 -e BACKGROUND_COLOR=green apptest:v1
