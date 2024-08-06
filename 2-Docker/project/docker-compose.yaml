@@ -6,7 +6,7 @@ services:
     ports:
       - "27017:27017"
     environment:
-      - MONGO_DATABASE=${MONGO_USER}
+      - MONGO_USER=${MONGO_USER}
       - MONGO_PASSWORD=${MONGO_PASSWORD}
       - MONGO_DATABASE=${MONGO_DATABASE}
     volumes:
@@ -22,7 +22,7 @@ services:
         - MONGO_DATABASE=${MONGO_USER}
         - MONGO_PASSWORD=${MONGO_PASSWORD}
         - MONGO_DATABASE=${MONGO_DATABASE}
-        - MONGO_CLUSTER =${MONGO_CLUSTER}
+
 
     depends_on:
         - mongodb
