@@ -18,3 +18,5 @@ This is a 3 tier project that consisting of
 
 
 docker-compose up -d
+
+20G t3.xlarge
