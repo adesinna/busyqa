@@ -11,7 +11,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
       MONGO_INITDB_ROOT_DATABASE: ${MONGO_DATABASE}
     volumes:
-      - ./movie-data:/data/db  # volume binding (changed from /data/movies to /data/db)
+      - ./movie-data:/data/db
 
   java:
     build:
