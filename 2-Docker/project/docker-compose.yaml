@@ -21,8 +21,7 @@ services:
       - "8080:8080"
     environment:
       MONGO_DATABASE: ${MONGO_DATABASE}
-      MONGO_PASSWORD: ${MONGO_PASSWORD}
-      MONGO_URL: ${MONGO_URL}  # Fixed variable name from MONGO_CLUSTER
+      MONGO_URI: ${MONGO_URL}  # Fixed variable name from MONGO_CLUSTER
     depends_on:
       - mongodb
 
