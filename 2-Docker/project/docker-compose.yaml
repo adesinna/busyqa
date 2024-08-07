@@ -1,6 +1,19 @@
 version: '3.8'
 
 services:
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    volumes:
+      - mongodb_data:/data/db
+
   java:
     build:
       context: ./java
@@ -9,8 +22,9 @@ services:
       - "8080:8080"
     environment:
       MONGO_DATABASE: ${MONGO_DATABASE}
-      MONGO_URI: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@localhost:27017/${MONGO_DATABASE}
-
+      MONGO_URI: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@mongodb:27017/${MONGO_DATABASE}
+    depends_on:
+      - mongodb
 
   react:
     build:
@@ -34,5 +48,7 @@ services:
       - react
       - java
 
+
 volumes:
   mongodb_data:
+
