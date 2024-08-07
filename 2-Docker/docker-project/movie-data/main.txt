@@ -1,4 +1,0 @@
-docker run -d --name mongodb -p 27017:27017 --env-file .env mongo:latest
-
-MONGO_INITDB_ROOT_USERNAME=admin
-MONGO_INITDB_ROOT_PASSWORD=projectpass
