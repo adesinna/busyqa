@@ -1,0 +1,5 @@
+kubectl run nginx-pod --image=nginx # this will create a pod with
+
+kubectl run nginx-pod --image=nginx --labels="type=front-end"
+
+
