@@ -1,0 +1,17 @@
+This allows you to use or on not operators for the nodes
+
+Types of Node Affinity:
+
+requiredDuringSchedulingIgnoredDuringExecution
+
+    This will make sure the labels of the nodes exist, and if something changes the
+    label of the node when is running it will keep running
+
+preferredDuringSchedulingIgnoredDuringExecution
+
+    This dont mind whether the labels of the nodes exist (it will place it anywhere), and if something changes the
+    label of the node when is running it will keep running
+
+requiredDuringSchedulingRequiredDuringExecution
+    nodes label must be there and required
+

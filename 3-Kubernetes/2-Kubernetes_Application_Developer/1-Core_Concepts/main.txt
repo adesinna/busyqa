@@ -59,3 +59,14 @@ Kubelet is not automatically downloaded when using kubeadm, so you must use bina
 
 
 kubectl cluster-info # You can get the cluster infomation
+
+minikube ip # as the local host of minikube
+
+kubectl port-forward svc/nginx-service 31235:80 --address 0.0.0.0 &
+
+nodeport:podsvc   # this how to get minikube to work on browser
+
+To give alias
+
+echo 'alias k=kubectl' >> ~/.bashrc
+source ~/.bashrc
