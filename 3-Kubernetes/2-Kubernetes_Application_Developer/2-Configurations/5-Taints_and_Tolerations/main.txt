@@ -24,13 +24,23 @@ So, when you "apply a taint" to a node, it's like putting one of these special s
 You specify the "key" and "value" of the sign, and you pick one of the "taint effects" to say how strict you want it to be.
 
 
+
+
+# NoSchedule means not in go away
+# PreferNoSchedule means go away, but if needed you can come
+# NoExecute means I will always check inside to see who entered wrongly and kick them out
+
 To be a taint on a node
 
+
+
 kubectl taint nodes node_name key=value:taint-effect
+
+kubectl taint nodes <node-name> app=web:NoSchedule
 
 kubectl describe node node01 | grep -i Taint # to see the taint on a node
 
 kubectl taint nodes node_name key=value:taint-effect- # notice the -, it is to remove the taint
 
-Taints on nodes does not guarantee that the pod with its toleration will be placed on it, because it can try
-another nodes before trying it.
+Taints on nodes does not guarantee that the pod with its toleration will be placed on it,
+because it can try another nodes before trying it.
