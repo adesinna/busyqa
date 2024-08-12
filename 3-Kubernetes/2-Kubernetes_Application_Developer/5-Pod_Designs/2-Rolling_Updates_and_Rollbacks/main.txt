@@ -1,0 +1,43 @@
+Rollout and Version:
+    When you create a deployment with a container version say v1, a rollout is triggered and a new deployment revision is
+    created, if the tag changes on the container, it triggers another one.
+
+
+To see the status of rollout:
+
+kubectl rollout status deployment/deployment_name
+
+To see history
+
+kubectl rollout history deployment/deployment_name
+
+
+Deployment Strategy:
+    Recreate:
+        This deletes all the pods at once, and create new ones to replace them
+
+    Rolling Update:
+        This deletes it one by one, and replace one by one.
+
+
+
+Edit your deployment
+kubectl edit deployment frontend # if you cant find the deployment
+
+kubectl apply -f deployment.yaml # add the specific image you want
+
+kubectl rollout undo deployment/deployment_name # this will revert to the specific deployment
+
+You can make changes to the definition file
+
+kubectl apply -f deploy.yaml
+
+kubectl rollout status deployment_name # this will get the status of the deployment
+
+kubectl rollout undo deployment/nginx-deployment # this would go to the previous version
+
+kubectl rollout history deployment/nginx-deployment # this would check history of deployment
+
+kubectl rollout undo deployment/nginx-deployment --to-revision=<revision-number> # goes to the specific deployment
+
+
