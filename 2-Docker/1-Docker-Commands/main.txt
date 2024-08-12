@@ -105,3 +105,13 @@ Docker Volumes
     This allows you to persist data, incase the container dies another can pick
 
     docker run -v path_on_host:path_in_container image
+
+    docker volume ls # list all volumes
+
+    docker volume rm volume_name
+
+    docker volume prune # remove unused volume
+    docker volume prune -f # forcefully
+
+    Remove all volumes # terminate all container first
+        docker volume rm $(docker volume ls -q)

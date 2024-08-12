@@ -24,6 +24,10 @@ spec:
       containers:
       - name: my-container
         image: nginx
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "500m"
       tolerations:
       - key: app
         operator: Equal
