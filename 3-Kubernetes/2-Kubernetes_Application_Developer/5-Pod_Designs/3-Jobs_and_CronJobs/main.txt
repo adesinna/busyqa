@@ -1,7 +1,8 @@
-There are some workloads that are might run till the cluster is stoped, and there are
+There are some workloads that are might run till the cluster is stopped, and there are
 some that needs to be ephemeral.
 
-While replicaset ensure a given set of pods are running, jobs make sure this ephemeral pods do their jobs and disappear.
+While replicaset ensure a given set of pods are running,
+jobs make sure this ephemeral pods do their jobs and disappear.
 
 Cron job is for periodic jobs
 

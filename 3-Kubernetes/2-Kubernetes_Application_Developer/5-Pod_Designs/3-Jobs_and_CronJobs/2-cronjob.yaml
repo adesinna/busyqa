@@ -6,6 +6,8 @@ spec:
   schedule: "*/5 * * * *"  # Cron schedule expression (runs every 5 minutes)
   jobTemplate:
     spec:
+      completions: 3
+      parallelism: 3
       template:
         spec:
           containers:
