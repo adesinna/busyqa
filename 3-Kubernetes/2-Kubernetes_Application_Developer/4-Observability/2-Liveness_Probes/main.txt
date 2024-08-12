@@ -1,0 +1,2 @@
+This will continuously test the application whether is running on not, so it will know whether to create the container
+or just restart it. Readiness checks only once, liveness checks periodically.
