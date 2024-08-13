@@ -1,0 +1,16 @@
+Suppose you build an application in a cluster, and use a nodePort to expose it to the outside world,
+but nodePort is not the best of a production grade application we can use a loadBalancer,
+so you can point the DNS to the loadbalancer.
+
+But if you were to add new part to the site, you can us nginx to route the right part of the site.
+
+Ingress allows you to use a single external url to route the traffic to the right path securely.
+
+Ingress allows you to route traffic to different service securely !!!
+
+The solution deployed is called ingress controller, and the rules  are called
+ingress resource.
+
+Ingress Controller
+
+We are using the nginx ingress controller
