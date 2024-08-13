@@ -1,0 +1,37 @@
+What is application load balancer
+    This is a super advance load balancer  in AWS
+
+    It supports path based routing and host based routing
+
+
+    It supports routing based on fields in the request header and url redirect
+
+    It supports registering lambda functions as targets
+
+    It supports load balancers to authenticate users of your application through
+    social id before routing request.
+
+    It can monitor the health of services and registering target outside the vpc
+
+
+ALB Ingress Controller
+   This controller triggers the creation of an ALB and necessary supporting AWS resources
+   whenever an ingress resource is created on the cluster.
+   It can support
+   - Instance mode # this is the default
+   - IP mode
+
+   Instance mode:
+        This routes traffic to the node, then the node port routes it to the service
+
+   IP mode:
+        This routes directly to the pods, this is good for fargate profiles
+
+
+
+
+
+
+
+
+
