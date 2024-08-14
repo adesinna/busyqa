@@ -1,0 +1,15 @@
+AWS LB controller
+    This was used to replace ALB ingress controller, this new one
+    can deploy both network and application load balancer.
+
+
+AWS LB Controller Deployment
+
+1. Get the policy the controller will need
+
+    # Download IAM Policy
+    ## Download latest
+    curl -o iam_policy_latest.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy.json
+    ## Verify latest
+
+2. Create the police
