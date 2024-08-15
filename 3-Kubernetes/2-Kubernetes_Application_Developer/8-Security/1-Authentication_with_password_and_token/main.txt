@@ -1,0 +1,28 @@
+The cluster consist of many nodes, and both humans and machine would need to access
+the cluster.
+
+- admins
+- developers
+- bots
+- end users
+
+
+All user access is managed by the kube-apiserver, it authenticates the request before
+processing it.
+
+Authentications mechanism
+
+- Static password file
+- Static token file
+- Certificates
+- Identity services like LDAP
+
+
+Static password and token file:
+    You could create a list of users and password in a csv file and use them for
+    authentication.
+
+    Then pass this file as an option to the kube api server
+    --basic-auth-file=user-details.csv # same things goes for token
+
+    This is not the best way to secure your cluster
