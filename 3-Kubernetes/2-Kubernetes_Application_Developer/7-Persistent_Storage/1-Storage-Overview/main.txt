@@ -105,3 +105,5 @@ The volume's data is deleted (scrubbed), and the PV is returned to the pool of a
 (Note: The Recycle policy is deprecated and no longer supported in many environments.)
 
 
+Note:
+    PVC is a namespace resource, while PV is a cluster wide resource
