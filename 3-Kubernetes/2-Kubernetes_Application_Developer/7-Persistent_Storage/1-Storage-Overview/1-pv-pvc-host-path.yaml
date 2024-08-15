@@ -22,7 +22,7 @@ spec:
     - ReadWriteOnce # it must tally with the PV access mode
   resources:
     requests:
-      storage: 500Mi # the amount of storage it needs from the PV, but it will try to use all since it is one to one.
+      storage: 1Gi # the amount of storage it needs from the PV, but it will try to use all since it is one to one.
 ---
 apiVersion: v1
 kind: Pod
