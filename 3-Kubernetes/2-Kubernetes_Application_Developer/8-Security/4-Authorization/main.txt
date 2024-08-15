@@ -1,0 +1,79 @@
+This details what you can do in the cluster after authentication
+
+Types of authorization mechanism
+
+1. Node Authorization
+Node authorization is a specialized authorization mechanism that controls what nodes
+(Kubernetes worker nodes) are allowed to do in the cluster.
+It is primarily used to restrict the actions of the kubelet (the Kubernetes node agent)
+and to ensure that nodes can only access resources that they are supposed to manage.
+
+Key Features:
+Scope: Node authorization is designed to be restrictive, allowing nodes to perform only the operations they need
+to manage pods and their associated resources.
+
+Authorization: It restricts nodes to only perform certain actions on the resources they are responsible for.
+For example, a node can only read the Pod and Secret objects for the pods scheduled on it.
+
+Usage: This mechanism is typically used in conjunction with other authorization methods like
+Role-Based Access Control (RBAC) to secure a Kubernetes cluster.
+
+Implementation: Enabled by setting the --authorization-mode=Node option on the API server.
+
+2. Attribute-Based Access Control (ABAC)
+
+Attribute-Based Access Control (ABAC) is an authorization mechanism that
+allows or denies access based on attributes of the request. These attributes can include the user, group, resource
+type, namespace, action (e.g., get, create, delete), and more.
+
+Key Features:
+Policy-Based: ABAC uses JSON or YAML files to define policies that describe who can do what in the cluster.
+Attributes: Policies are evaluated based on attributes like the user's identity, the requested action, the
+resource type, and other contextual information.
+Flexibility: ABAC is highly flexible, allowing fine-grained control over permissions based on a wide variety of conditions.
+Complexity: Managing and maintaining ABAC policies can be complex, especially in large clusters with many users and resources.
+
+3. Role-Based Access Control (RBAC)
+RBAC is one of the most widely used authorization mechanisms in Kubernetes.
+It allows administrators to define roles with specific permissions and then assign
+those roles to users, groups, or service accounts.
+
+Key Features:
+Roles and RoleBindings: A role defines a set of permissions (e.g., "can read pods"). A RoleBinding assigns a role to
+a user, group, or service account within a specific namespace.
+
+ClusterRoles and ClusterRoleBindings: Similar to Roles, but ClusterRoles can be applied across the entire cluster,
+and ClusterRoleBindings assign these roles at the cluster level.
+
+Granularity: RBAC provides fine-grained control over who can perform what actions on which
+resources within specific namespaces or across the entire cluster.
+
+
+4. Webhook Authorization
+
+Webhook authorization allows Kubernetes to delegate authorization decisions to an external HTTP service.
+This mechanism provides the highest flexibility, as it allows custom logic and external policies to dictate access control.
+
+Key Features:
+External Decision Making: The API server sends authorization requests to a configured webhook endpoint,
+which evaluates the request and returns an allow/deny decision.
+
+Custom Policies: This method is highly customizable and can incorporate external systems, databases,
+or other services to make complex authorization decisions.
+
+Latency Consideration: Since the decision is made externally, there can be added latency compared to internal mechanisms like RBAC.
+
+
+
+
+
+
+
+
+3. Role-Based Access Control (RBAC)
+RBAC is one of the most widely used authorization mechanisms in Kubernetes. It allows administrators to define roles with specific permissions and then assign those roles to users, groups, or service accounts.
+
+Key Features:
+Roles and RoleBindings: A role defines a set of permissions (e.g., "can read pods"). A RoleBinding assigns a role to a user, group, or service account within a specific namespace.
+ClusterRoles and ClusterRoleBindings: Similar to Roles, but ClusterRoles can be applied across the entire cluster, and ClusterRoleBindings assign these roles at the cluster level.
+Granularity: RBAC provides fine-grained control over who can perform what actions on which resources within specific namespaces or across the entire cluster.

@@ -1,0 +1,35 @@
+Kube-apiserver allows you to interact with the cluster to get informations
+
+
+- metrics and health
+    This measures the health of the cluster
+
+
+- version
+    This gets the version of the cluster
+
+- logs
+    Integrating for 3rd logs
+
+
+Groups
+
+    Core Group
+
+        Resources: pods, services, nodes, etc.
+        API Path: /api/v1/pods
+
+    Apps Group
+
+        Resources: deployments, statefulsets, daemonsets
+        API Path: /apis/apps/v1/deployments
+
+    Batch Group
+
+        Resources: jobs, cronjobs
+        API Path: /apis/batch/v1/jobs
+
+    Networking Group
+
+        Resources: networkpolicies, ingresses
+        API Path: /apis/networking.k8s.io/v1/ingresses

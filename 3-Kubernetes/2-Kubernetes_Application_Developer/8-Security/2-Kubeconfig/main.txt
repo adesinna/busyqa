@@ -22,3 +22,5 @@ This file is in a specific format
 - Contexts: Marries the user to the cluster, define which user@cluster
 
 see the 1-config
+
+kubectl --kubeconfig=/path/to/kubeconfig1 get pods # if it is in another path
