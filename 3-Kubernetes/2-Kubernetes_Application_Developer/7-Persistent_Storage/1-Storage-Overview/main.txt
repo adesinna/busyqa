@@ -107,3 +107,11 @@ The volume's data is deleted (scrubbed), and the PV is returned to the pool of a
 
 Note:
     PVC is a namespace resource, while PV is a cluster wide resource
+
+
+    kubectl get sc
+
+    kubectl get pv
+
+    kubectl get pvc -n namespace
+

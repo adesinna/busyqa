@@ -26,3 +26,11 @@ Static password and token file:
     --basic-auth-file=user-details.csv # same things goes for token
 
     This is not the best way to secure your cluster
+
+
+Certificates:
+    --key admin.key
+    --cert admin.crt
+    --cacert ca.crt
+
+This must be passed to authenticate using cert, more of this in the

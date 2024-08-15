@@ -1,0 +1,35 @@
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCVENDQWUyZ0F3SUJBZ0lJUEkyZlRudzNpZzh3RFFZSktvW
+                                3g0WE12L1ZLQjhGCjV3RjBaOTQrMnpLVU42b0VLUEY4bGhWSzkwYW1iL25KNXNSV2UwcVRpWXhKbnZFWThUeEFHVTVZcm
+                                VxNgpqY3dHTml6RDB2NklqN09BS0h0RmZsVERJbmhsQWdNQkFBR2pXVEJYTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQCkJn
+                                TlZIUk1CQWY4RUJUQURBUUgvTUIwR0ExVWREZ1FXQkJUcU9yemVJWWxUTkVPUENqZE9NTGU4T3NrdmZUQVYKQmdOVkhSRUV
+                                EakFNZ2dwcmRXSmxjbTVsZEdWek1BMEdDU3FHU0liM0RRRUJDd1VBQTRJQkFRQ2VxR2luQ3VmegpibVZkcHlDVkVlVjhEY
+                                nFOUXRDRlI0M1JDSGR5RzhrZ1NkRWZxOEc0MmQzWld0b0gzQUhzM3JxVGZkdGJmSmdaCmVCZVAwVGkrM0V5cXFOYXhQcU1Qb
+                                cwbejhfhebfjndebhijnrefenrabvhfiuoredjfavuyi34odjeuaybvldnojwxhcefavfbvfr3hifr hbfucijenfijnfchb
+    server: https://97FA12B802E69617D605B201707B2D0A.sk1.us-west-1.eks.amazonaws.com
+  name: arn:aws:eks:us-west-1:479465295367:cluster/test-eksdemo1
+contexts:
+- context:
+    cluster: arn:aws:eks:us-west-1:479465295367:cluster/test-eksdemo1
+    user: arn:aws:eks:us-west-1:479465295367:cluster/test-eksdemo1
+  name: arn:aws:eks:us-west-1:479465295367:cluster/test-eksdemo1
+current-context: arn:aws:eks:us-west-1:479465295367:cluster/test-eksdemo1
+kind: Config
+preferences: {}
+users:
+- name: arn:aws:eks:us-west-1:479465295367:cluster/test-eksdemo1
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args:
+      - --region
+      - us-west-1
+      - eks
+      - get-token
+      - --cluster-name
+      - test-eksdemo1
+      - --output
+      - json
+      command: aws

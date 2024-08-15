@@ -1,0 +1,24 @@
+If a user wants to use kubectl to get to the pod
+
+    kubectl get pods
+        --server my_kube_server:6443
+        --client-key admin.key
+        --client-certificate admin.crt
+        --certificate-authority ca.crt
+
+
+All this information can be written inside the config file so you can use
+kubectl to access and work on the cluster
+
+The config file path is in  $HOME/.kube/config
+
+This file contains all the authentication needed for kubectl to work
+
+
+This file is in a specific format
+
+- Clusters: this is where the cluster is location
+- Users: this is the users and what user can do on different cluster
+- Contexts: Marries the user to the cluster, define which user@cluster
+
+see the 1-config
