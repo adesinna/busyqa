@@ -1,0 +1,54 @@
+The concept of volume is storing data of the container that is running, if the container is restarted or delete storage
+can wipe out.  It is always better to have a volume attached to the container.
+
+Volumes are permanent storage for your containers, so if container is restarted nothing will happen to the container storage.
+
+If you delete your pod, and use the volume of empty dir volume, the volume in k8 will also be deleted.
+So in the pod perspective the storage becomes ephemeral again.
+
+This is why we have pv and pvc.
+
+Persistent Volume:
+    This will have to be provisioned by an administrator, pv will be created in the cluster, it will be store data permanently.
+    It can be created through static or dynamic way.
+
+    Static:
+        These are PV that are provisioned by cluster administrator, which can be managed by k8 api-server
+
+
+    Dynamic:
+        These are PV that are created automatically based on the request.
+        It uses a storage class to identify the storage that is needed to be created.
+
+
+Persistent Volume Claim:
+    This is a request of storage from the PV, the PVC consume the PV resources, the way a pod consume the needed
+    resource for it to run. They request for specific size and access mode.
+
+    PV and PVC should always be one to one mapping.
+
+ReadWriteOnce (RWO):
+
+    This mode allows the volume to be mounted as read-write by a single node (Pod) at a time.
+    It's suitable for scenarios where a volume should be mounted as read-write by only one Pod, providing exclusive access to that Pod.
+    Common use cases include running a single-instance database like MySQL or PostgreSQL.
+
+ReadOnlyMany (ROX):
+
+    This mode allows the volume to be mounted as read-only by multiple nodes (Pods) simultaneously.
+    It's suitable for scenarios where multiple Pods need to read from the same data source, but no Pod is expected to modify the data.
+    Common use cases include sharing configuration files or static assets among multiple Pods.
+
+ReadWriteMany (RWX):
+
+    This mode allows the volume to be mounted as read-write by multiple nodes (Pods) simultaneously.
+    It's suitable for scenarios where multiple Pods need both read and write access to the same data source simultaneously.
+    Common use cases include shared storage solutions like NFS, where multiple Pods need to read and write to a common file system.
+
+
+
+
+
+
+
+

@@ -63,3 +63,4 @@
 
     kubectl get secrets
 
+10. Delete the lb before terraform destroy and the lb
