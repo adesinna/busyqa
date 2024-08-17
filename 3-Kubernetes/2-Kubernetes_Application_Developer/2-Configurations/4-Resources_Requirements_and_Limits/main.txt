@@ -17,5 +17,5 @@ The best is to just set request without using limits. Because if pod A is limite
 resource, it wont be able to get it. Dont restrict pods if the others pods can free their resources.
 
 Limit Range
-    This works at the namespace level, the request
+    This works at the namespace level, defines the total request and limits
 
