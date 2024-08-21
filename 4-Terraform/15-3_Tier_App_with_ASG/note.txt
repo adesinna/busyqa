@@ -1,0 +1,63 @@
+terraform plan -var-file="secrets.tfvars"
+
+terraform apply -var-file="secrets.tfvars" -auto-approve
+
+terraform destroy -var-file="secrets.tfvars" -auto-approve
+
+ASG is better and more advanced than using instance launch configuration 
+
+# App1
+https://dns-to-db.devopsincloud.com/app1/index.html
+
+# App2
+https://dns-to-db.devopsincloud.com/app2/index.html
+
+# App3
+https://dns-to-db.devopsincloud.com
+
+
+CNAME Record	
+_a82945bb7f72dbfc40ff9b744ccb8207
+
+_1ec31abede2e59df4fb368d6ca98f8e5.sdgjtdhdhz.acm-validations.aws.
+
+Automatic
+
+-
+CNAME Record	
+app1
+
+application-lb-337343429.us-west-1.elb.amazonaws.com.
+
+1 min
+
+-
+CNAME Record	
+app2
+
+application-lb-337343429.us-west-1.elb.amazonaws.com.
+
+1 min
+
+-
+CNAME Record	
+www
+
+application-lb-337343429.us-west-1.elb.amazonaws.com.
+
+1 min
+
+
+CNAME Record	
+
+@  
+
+application-lb-337343429.us-west-1.elb.amazonaws.com.
+
+1 min
+
+
+sudo tail -f /home/ec2-user/app3-usermgmt/ums-start.log # db logs 
+
+/app1/metadata
+

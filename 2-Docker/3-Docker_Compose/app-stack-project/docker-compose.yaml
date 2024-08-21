@@ -1,63 +1,54 @@
-version: "3.0"
+version: '3'
 
 services:
-    redis:
-        image: redis # this image is available on docker hub
-        environment:
-            - ROOT_PASSWORD=shanana
-        ports:
-            - "5432:5432" # the port mapping
-        volumes:
-            - redis-data-backup:/var/lib/volumes # attaching the volume
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
 
+  db:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - db_data:/var/lib/postgresql/data
 
-    db:
-        image: postgres:9.4 # this image is available on docker hub
-        environment:
-            - ROOT_PASSWORD=shanana # you can build this as env
-        ports:
-            - "6379:6379" # the port mapping
-        volumes:
-            - db-data-backup:/var/lib/volumes # attaching the volume
+  vote:
+    image: dockersamples/examplevotingapp_vote:latest
+    container_name: vote
+    ports:
+      - "5000:80"
+    environment:
+      - REDIS_HOST=redis
+    depends_on:
+      - redis
 
-    vote:
-        build:
-            context: ./vote # this folder is where the dockerfile for the "vote" is
-        restart: always # to make sure it always restarts
-        ports:
-            - "80:80" # the port mapping
-        container_name: vote-api # name of the container
-        depends_on:
-            - redis
+  worker:
+    image: dockersamples/examplevotingapp_worker:latest
+    container_name: worker
+    environment:
+      - REDIS_HOST=redis
+      - POSTGRES_HOST=db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - redis
+      - db
 
-    result:
-        build:
-            context: ./result # this folder is where the dockerfile for the "result" is
-        restart: always
-        ports:
-            - "8080:8080"
-        container_name: result-api
-        depends_on:
-            - db
-    worker:
-        build:
-            context: ./worker # this folder is where the dockerfile for the "worker" is
-        restart: always
-        ports:
-            - "8081:8081"
-        container_name: worker-api
-        depends_on:
-            - db
-            - redis
-
-
+  result:
+    image: dockersamples/examplevotingapp_result:latest
+    container_name: result
+    ports:
+      - "5001:80"
+    environment:
+      - POSTGRES_HOST=db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - db
 
 volumes:
-  db-data-backup: {} # creating volume
-  redis-data-backup: {} # creating volume
-
-
-
-
-
-
+  db_data:

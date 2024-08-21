@@ -1,0 +1,23 @@
+1. Terraform Setting Block
+
+Special block used to configure some behaviors
+
+Required for the lastest terraform version
+
+Terraform Backend
+
+
+2. Provider block
+
+This is the heart of terraform
+
+They interact with the system
+
+Provider configuration belongs to root module
+
+
+
+3. Resource Block
+
+This provisions one or more infrastructure
+

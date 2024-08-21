@@ -1,0 +1,24 @@
+When you create a terraform state file, it works like etcd in k8s
+it allows you monitor the state of the infrastructure created.
+
+I init
+
+V validate
+
+F fmt
+
+P plan
+
+A apply
+
+D destroy
+
+rm -rf .terraform*
+rm -rf terraform.tfstate*
+
+Note:
+
+Certificate worked by just putting CNAME record for in namecheap
+Also cname record for loadbalancer
+
+www  lb

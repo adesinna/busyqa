@@ -1,0 +1,14 @@
+Modules are containers for multiple resources that are used together.
+A module consist of collection of .tf files kept together in a directory.
+
+- Modules are the main way to package and reuse resource configurations with Terraform
+
+- Every Terraform configuration has at least one module, known as the root module
+  which consist of the resources defined in the .tf files in the main working directory
+
+- The root module can call other module into their configuration, the called module is called
+  the child module, they can be called multiple times in a configuration and also multiple configuration
+  can call a child module.
+
+- It can also load child module from local files or public and private registry
+

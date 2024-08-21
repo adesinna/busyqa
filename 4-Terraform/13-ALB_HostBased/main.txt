@@ -1,0 +1,37 @@
+Buying Domain
+
+1. Buying on aws 
+    You need a Registered Domain in AWS Route53 to implement this usecase
+
+    Lets discuss more about it
+
+    Go to AWS Services -> Route53 -> Domains -> Registered Domains -> Register Domain
+
+    Choose a domain name: abcabc.com and click on Check
+
+    If available, click on Add to Cart and Click on Continue
+
+    Provide Contact Details for Your 1 Domain and Click on Continue
+
+    Terms and Conditions: Check and click on Complete Order
+
+    Go back to Billing and complete the payment for the domain to be approved
+
+
+2. Buying on other platform
+
+    Purchase the Domain
+
+    Get Domain Name Servers (DNS) Information:
+
+        After purchasing the domain, log in to your account on the registrar’s website.
+        Locate the domain management section, usually labeled as "DNS" or "Name Servers."
+        
+
+    Create a Hosted Zone in AWS Route 53:
+
+        Go to the AWS Management Console.
+        Navigate to Route 53.
+        Click on "Hosted zones."
+        Click on "Create hosted zone."
+        Enter your domain name (e.g., abcabc.com) and create the hosted zone.

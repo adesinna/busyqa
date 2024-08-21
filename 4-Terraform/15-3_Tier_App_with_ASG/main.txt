@@ -1,0 +1,6 @@
+Templates allows you to launch instance via a prewritten configuration
+
+You can version it, or you can use a template as a base template to build the 
+other templates.
+
+This is what autoscaling groups use
