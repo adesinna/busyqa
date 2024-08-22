@@ -67,8 +67,10 @@ module "ec2_private_app3" {
 
 
   vpc_security_group_ids = [module.sg-private-ec2.security_group_id]
-  for_each = toset(["0", "1"]) # this means set 0,1 to first and second
-  subnet_id =  element(module.vpc.private_subnets, tonumber(each.key))  # give each on subnet
+  # for_each = toset(["0", "1"]) # this means set 0,1 to first and second
+  for_each = toset(range(3))
+  # subnet_id =  element(module.vpc.private_subnets, tonumber(each.key))  # give each on subnet
+  subnet_id = element(module.vpc.private_subnets, each.value % 2) 
 }
 
 

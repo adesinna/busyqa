@@ -4,7 +4,7 @@ module "acm" {
 
   domain_name = trimsuffix(data.aws_route53_zone.mydomain.name, ".") #Incase the ...com. 
   zone_id = data.aws_route53_zone.mydomain.zone_id 
-  wait_for_validation = true # should be true but w
+  wait_for_validation = true # should be true 
   validation_method = "DNS"
   tags = local.common_tags
 

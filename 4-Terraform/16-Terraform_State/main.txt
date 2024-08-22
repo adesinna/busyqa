@@ -1,0 +1,73 @@
+The state on your local machine is called the desired state, while the
+state on the cloud is called the current state.
+
+Terraform state file is created when you apply terraform, if this file gets
+corrupt, it can affect your desired state.
+
+Terraform Backend
+    These are responsible for storing the state and providing an api for state locking
+
+In Terraform, a backend is a crucial component that defines where and how Terraform's state data is stored. 
+The state data is a snapshot of your infrastructure, keeping track of resources and their configurations.
+
+By using a backend, you can:
+
+Store Terraform state securely: 
+    Backends allow you to store the Terraform state in a centralized location, such as a cloud storage service,
+    a version control system, or a database. This ensures that the state is not lost and can be accessed by team members.
+
+Enable collaboration: 
+    When multiple team members are working on the same infrastructure,
+    a remote backend allows them to share the same state file.
+    This prevents issues like conflicting changes and ensures that everyone is working 
+    from the same version of the infrastructure.
+
+Provide state locking: 
+    Some backends offer state locking, which ensures that only one person or process can make changes to 
+    the state at a time. This prevents conflicts that could arise from simultaneous updates.
+
+Support for workspaces: 
+    Some backends also support Terraform workspaces, which allow you to manage
+    multiple environments (like development, staging, and production) from a single configuration.
+
+Common Terraform Backends
+
+    Local: The state is stored on the local disk as a .tfstate file.
+    S3: Stores the state in an Amazon S3 bucket. It’s commonly used with AWS.
+    GCS: Stores the state in a Google Cloud Storage bucket.
+    AzureRM: Stores the state in an Azure Blob Storage container.
+
+
+
+
+State locking in Terraform is a feature that prevents multiple concurrent operations from being performed on the 
+same state file. When Terraform performs any operation that modifies the state (like terraform apply, 
+terraform plan, or terraform refresh), it locks the state file to ensure that no other processes can make 
+changes to it at the same time.
+
+Why State Locking is Important
+Prevents conflicts: 
+    Without state locking, multiple users or processes could attempt to modify the state simultaneously. 
+    This could lead to inconsistencies, such as race conditions, where two operations overwrite each other’s changes.
+
+Ensures data integrity: Locking ensures that only one process is making changes at a time, maintaining the integrity of the infrastructure state.
+
+Avoids resource corruption: When resources are being managed by Terraform, simultaneous changes could result in partial updates, leaving resources in an undefined or corrupted state.
+
+How State Locking Works
+Locking the state: When a Terraform operation that requires state changes is initiated, Terraform attempts to lock the state file by acquiring a lock in the backend. If the lock is successfully acquired, the operation proceeds.
+
+Releasing the lock: After the operation completes, Terraform releases the lock, making the state available for other operations.
+
+Handling lock contention: If another process tries to lock the state while it is already locked, it will be blocked until the lock is released. Terraform will usually wait and retry a few times before failing the operation if the lock is not acquired within a certain time frame.
+
+Backends Supporting State Locking
+
+Not all Terraform backends support state locking. Here are some common backends that do:
+
+Amazon S3 with DynamoDB: When using an S3 backend, you can enable state locking by setting up a DynamoDB table. 
+Terraform uses this table to manage locks.
+
+Google Cloud Storage (GCS): Supports state locking natively.
+
+Azure Blob Storage: Supports state locking when used with Terraform.

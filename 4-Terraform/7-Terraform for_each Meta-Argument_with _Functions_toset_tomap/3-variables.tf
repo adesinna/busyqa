@@ -33,7 +33,7 @@ variable "instance_type_list" {
 
 variable "instance_type_map" {
   description = "Ec2 env"
-  type = map(string)
+  type = map(string)  # this is like dictionary
   default = {
     "dev" = "t3.micro"
     "prod" = "t2.micro"

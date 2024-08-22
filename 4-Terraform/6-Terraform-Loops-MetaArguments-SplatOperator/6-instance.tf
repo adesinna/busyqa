@@ -5,7 +5,7 @@ resource "aws_instance" "myinstance" {
   user_data = file("${path.module}/data_script.sh") # file function
   key_name = var.instance_key_pair
   vpc_security_group_ids = [aws_security_group.instance_sg.id]
-  count = 2 # this is a meta-argument, it would create 5 instances
+  count = 5 # this is a meta-argument, it would create 5 instances
   tags = {
     "Name" = "myinstance-${count.index}" # count index for the name, 0-4
   }

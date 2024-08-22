@@ -54,7 +54,7 @@ module "application-lb" {
                 target_group_key = "my_target_group_1"
                 weight           = 1
               }
-            ]
+            ] 
             stickiness = {
               enabled  = true
               duration = 3600
@@ -182,6 +182,7 @@ module "application-lb" {
     my_target_group_3 = {  # name of tg
       create_attachment = false 
       # so it wont associate an autoscaling group, since we dont have one we have to associate our instance ourselves 
+      # always keep it as false so you can attach you own asg
 
       name_prefix                       = "tg3-"
       protocol                          = "HTTP"

@@ -1,0 +1,39 @@
+Go to Services -> S3 -> Create Bucket
+Bucket name: terraform-on-aws-for-ec2
+Region: US-West (N.Virginia)
+Bucket settings for Block Public Access: leave to defaults
+Bucket Versioning: Enable
+Rest all leave to defaults
+Click on Create Bucket
+Create Folder
+Folder Name: dev
+Click on Create Folder
+Create Folder
+Folder Name: dev/project1-vpc
+Click on Create Folder
+
+# add this to version
+backend "s3" {
+    bucket = "terraform-on-aws-for-ec2"
+    key    = "dev/project1-vpc/terraform.tfstate"
+    region = "us-east-1"
+
+    # Enable during Step-09
+    # For State Locking
+    dynamodb_table = "dev-project1-vpc"
+  }
+
+
+Create Dynamo DB Table
+Table Name: dev-project1-vpc
+Partition key (Primary Key): LockID (Type as String)
+Table settings: Use default settings (checked)
+Click on Create
+
+
+# Destroy Resources
+terraform destroy -auto-approve
+
+# Clean-Up Files
+rm -rf .terraform*
+rm -rf terraform.tfstate*

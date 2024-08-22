@@ -66,7 +66,7 @@ module "ec2_public" {
 #   tags = local.common_tags
 
 
-#   vpc_security_group_ids = [module.sg-private-ec2.security_group_id]
-#   for_each = toset(["0", "1"]) # this means set 0,1 to first and second
-#   subnet_id =  element(module.vpc.private_subnets, tonumber(each.key))  # give each on subnet
+  # vpc_security_group_ids = [module.sg-private-ec2.security_group_id]
+  # for_each = toset(["0", "1"]) # this means set 0,1 to first and second
+  # subnet_id =  element(module.vpc.private_subnets, tonumber(each.key))  # give each on subnet
 # }
