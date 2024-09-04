@@ -1,0 +1,9 @@
+To login to git
+
+git config --global user.name "your-username"
+git config --global user.email "your-email"
+
+To check it worked
+
+git config --global --list
+
