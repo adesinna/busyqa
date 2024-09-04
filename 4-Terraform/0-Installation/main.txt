@@ -1,0 +1,70 @@
+1. Using the bash script bash.sh install
+    i. aws cli
+    ii. eksctl
+    iii.kubectl binary
+
+2. Create EKS cluster using eksctl
+
+# Create Cluster
+eksctl create cluster --name=ekstest \
+                      --region=us-west-1 \
+                      --zones=us-west-1a,us-west-1b \
+                      --without-nodegroup
+
+# Get List of clusters
+eksctl get cluster
+
+
+3. Create & Associate IAM OIDC Provider for our EKS Cluster
+
+# When you enable IAM roles for Kubernetes service accounts, you are essentially setting up a mechanism that allows
+  individual pods (workloads) running within your Kubernetes cluster to assume specific IAM roles.
+  This setup allows those pods to securely and efficiently access AWS resources such as S3,
+  DynamoDB, and other AWS services.
+
+
+eksctl utils associate-iam-oidc-provider \
+    --region us-west-1 \
+    --cluster ekstest \
+    --approve
+
+
+4. Create key-pair
+    This is needed incase you want to access the worker nodes.
+    Create kube-demo
+
+
+5. # Create Public Node Group # created in public for now
+eksctl create nodegroup --cluster=ekstest \
+                       --region=us-west-1 \
+                       --name=ekstest-ng-public1 \
+                       --node-type=t3.medium \
+                       --nodes=2 \
+                       --nodes-min=2 \
+                       --nodes-max=4 \
+                       --node-volume-size=20 \
+                       --ssh-access \
+                       --ssh-public-key=kube-demo \
+                       --managed \
+                       --asg-access \
+                       --external-dns-access \
+                       --full-ecr-access \
+                       --appmesh-access \
+                       --alb-ingress-access
+
+# List EKS clusters
+eksctl get cluster
+
+# List NodeGroups in a cluster
+eksctl get nodegroup --cluster=ekstest
+
+# List Nodes in current kubernetes cluster
+kubectl get nodes -o wide
+
+# Our kubectl context should be automatically changed to new cluster #
+kubectl config view --minify
+
+
+6. Delete cluster
+
+eksctl delete cluster ekstest
