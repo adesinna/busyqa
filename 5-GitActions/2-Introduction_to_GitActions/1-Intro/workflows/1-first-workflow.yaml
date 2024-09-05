@@ -1,0 +1,14 @@
+name: first workflow  # The name of the workflow
+on: workflow_dispatch
+# on: push  # This is the event that triggers the workflow
+
+jobs:
+  first-job:
+    runs-on: ubuntu-latest  # Specifies the environment (Ubuntu) for this job
+
+    steps:
+      - name: print greeting  # First step to print a greeting message
+        run: echo "Hello World"
+
+      - name: print the lscpu  # Second step to display CPU architecture details
+        run: lscpu
