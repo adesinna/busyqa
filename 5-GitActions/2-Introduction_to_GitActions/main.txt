@@ -28,3 +28,22 @@ Key Characteristics:
     Different environments:
         You can specify different operating systems for
         each job (e.g., ubuntu-latest, macos-latest, windows-latest).
+
+Steps:
+    A step is an individual task within a job. Steps run sequentially
+    within the job. Each step can execute a command (using run) or use
+    an existing GitHub Action (using uses).
+    Steps are where you define what actions should be performed,
+    such as checking out the code, installing dependencies, running
+    tests, or deploying the application.
+
+
+
+Workflow1:
+    Job1:
+        step1
+        step2
+
+    job2:
+       step1
+       step2
