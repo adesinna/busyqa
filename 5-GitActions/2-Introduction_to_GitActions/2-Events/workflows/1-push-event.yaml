@@ -1,0 +1,18 @@
+name: event workflow
+on:
+    push:
+        branches:
+            - main
+            - 'dev-*' # any one that starts with dev
+            - 'feat/**' # any branch that start with feat/ or more /
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+        - name: print author
+          run: echo "Mrs Adesina Tolani Adeola"
+
+
+        - name: print env on actions using json
+          run: echo "${{ toJSON(github) }}"

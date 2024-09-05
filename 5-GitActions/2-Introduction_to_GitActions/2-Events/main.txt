@@ -1,0 +1,24 @@
+Events are occurrences that should happen before the workflow runs.
+
+Some examples are:
+Repo related, like when they happen in the repo:
+    push
+    create
+    pull_request
+    issue_comment
+    fork
+    issues
+    watch
+    discussion
+
+Others:
+    workflow_dispatch
+    repository_dispatch
+    schedule
+    workflow_call
+
+
+
+
+
+

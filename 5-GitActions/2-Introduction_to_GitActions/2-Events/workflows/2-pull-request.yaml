@@ -1,0 +1,17 @@
+name: event workflow
+on:
+    pull_request:
+        types: [opened] # it cloud be closed
+
+    workflow:  # : is important for second
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+        - name: print author
+          run: echo "Mrs Adesina Tolani Adeola"
+
+
+        - name: print env on actions using json
+          run: echo "${{ toJSON(github) }}"
