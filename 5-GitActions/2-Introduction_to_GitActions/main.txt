@@ -1,0 +1,30 @@
+Key Elements
+
+Workflows:
+    A GitHub Actions workflow defines a series of steps that are automatically
+    executed based on specific events or schedules in your GitHub repository.
+    It helps automate tasks such as running tests, building projects,
+    deploying code, or any custom job.
+
+    They might be one or more workflow attached to a repo
+
+
+Jobs:
+    A job is a collection of steps that are executed sequentially in a
+    specific environment (e.g., on a specific operating system).
+    Jobs are defined within the jobs section of the workflow file and run on different
+    virtual machines (called runners).
+    You can define multiple jobs that either run in parallel or are dependent on other jobs.
+
+Key Characteristics:
+    Runs in isolation:
+        Each job runs in a clean, separate environment (e.g., a new virtual machine
+        or container) unless configured to share data via artifacts or caching.
+
+    Parallel or sequential execution:
+        By default, jobs run in parallel. If a job depends on another job,
+        it can be specified using the needs keyword.
+
+    Different environments:
+        You can specify different operating systems for
+        each job (e.g., ubuntu-latest, macos-latest, windows-latest).

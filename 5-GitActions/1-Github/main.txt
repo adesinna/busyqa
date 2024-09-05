@@ -25,9 +25,23 @@ git config --global --list
 This would show all the commits id
 
 
+- git checkout
+This would go back to when the code is at a particular time temporarily
+    git checkout commit_id
+
+ To go back
+    git checkout main # to point the head to where it was
+
+
+- git revert
+    This takes the code to where it was as a new commit
+
 - git reset
-This would go back to when the code is at a particular time
-    git reset commit_id
+    This would delete all the commit in front of the one you went back
+        git reset --hard id
+
+- git branch
+
 
 
 
