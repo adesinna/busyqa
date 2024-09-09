@@ -17,7 +17,7 @@ Others:
     schedule
     workflow_call
 
-
+if the comment consist of [skip ci] # it skips
 
 
 

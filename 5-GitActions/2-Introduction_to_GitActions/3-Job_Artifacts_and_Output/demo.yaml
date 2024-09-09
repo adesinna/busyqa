@@ -1,0 +1,70 @@
+name: Deploy website
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the code from another repo
+        uses: actions/checkout@v3
+        with:
+          repository: 'adesinna/Action_test'  # Specify the repository owner/repo-name
+          path: work  # this is the path on the runner where the repo will be cloned
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'  # Specify Node.js 20
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./work  # Ensure npm runs in the correct directory
+
+      - name: Lint code
+        run: npm run lint
+        working-directory: ./work  # Ensure npm runs in the correct directory
+
+      - name: Test code
+        run: npm run test
+        working-directory: ./work  # Ensure npm runs in the correct directory
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+            name: node-artifact
+            path: |
+                ./work/dist
+                ./work/package.json
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the code from another repo
+        uses: actions/checkout@v3
+        with:
+          repository: 'adesinna/Action_test'
+          path: work  # Ensure the same path is used here as well
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'  # Specify Node.js 20
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./work
+
+      - name: Build website
+        run: npm run build
+        working-directory: ./work
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        run: echo "Deploying..."
