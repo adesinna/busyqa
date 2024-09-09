@@ -1,19 +1,23 @@
-# from actions and code are in different repo
+# action and code are in the same repo
 name: Deploy website
 on:
   push:
     branches:
       - main  # Workflow triggers on push to the 'main' branch
 
+env:  # all jobs can use it
+    MONGODB_DB_NAME:
 jobs:
   test:
+    env: # for test job
+        MONGODB_CLUSTER_ADDRESS:
+        MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}   # settings > security > secrets > actions
+        MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+        PORT: 27017
     runs-on: ubuntu-latest  # Run the job on the latest version of Ubuntu
     steps:
-      - name: Check out the code from another repo
-        uses: actions/checkout@v4
-        with:
-          repository: 'adesinna/Action_test'
-          path: work  # Check out the code from a different repository into the 'work' directory
+      - name: Check out the code from the current repo
+        uses: actions/checkout@v4  # Check out the code from the repository where this workflow is defined
 
       - name: Set up Node.js 20
         uses: actions/setup-node@v4
@@ -24,35 +28,36 @@ jobs:
         uses: actions/cache@v3
         id: cache-node-modules  # Give the cache step an ID so it can be referenced later
         with:
-          path: ./work/node_modules  # Cache the 'node_modules' directory
-          key: ${{ runner.os }}-node-${{ hashFiles('work/package-lock.json') }}  # Generate cache key based on OS and package-lock.json hash
+          path: ./node_modules  # Cache the 'node_modules' directory from the current directory
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}  # Generate cache key based on OS and package-lock.json hash
           restore-keys: |
             ${{ runner.os }}-node-  # Use a fallback key if an exact cache match is not found
 
+
       - name: Install dependencies
         if: steps.cache-node-modules.outputs.cache-hit != 'true'  # Run 'npm install' only if the cache was not hit
-        run: npm install
-        working-directory: ./work  # Run in the 'work' directory where the code was checked out
+        run: npm install  # Install dependencies from the current directory
 
       - name: Lint code
         run: npm run lint  # Run the linting step
-        working-directory: ./work  # Use the 'work' directory
 
       - name: Test code
         run: npm run test  # Run the tests
-        working-directory: ./work  # Use the 'work' directory
+
 
   build:
+    env: # for test build
+        MONGODB_CLUSTER_ADDRESS:
+        MONGODB_USERNAME: db_build
+        MONGODB_PASSWORD: builder
+        PORT: 27017
     needs: test  # This ensures the 'build' job runs only after the 'test' job succeeds
     runs-on: ubuntu-latest  # Run the job on the latest version of Ubuntu
     outputs:
       script-file: ${{ steps.publisher.outputs.script-file }}  # Capture the output (script file) for the deploy job
     steps:
-      - name: Check out the code from another repo
-        uses: actions/checkout@v4
-        with:
-          repository: 'adesinna/Action_test'
-          path: work  # Check out the code from the repo into 'work' directory
+      - name: Check out the code from the current repo
+        uses: actions/checkout@v4  # Check out the code from the current repository
 
       - name: Set up Node.js 20
         uses: actions/setup-node@v4
@@ -63,29 +68,33 @@ jobs:
         uses: actions/cache@v3
         id: cache-node-modules  # Use cache to speed up Node.js dependencies installation
         with:
-          path: ./work/node_modules  # Cache the 'node_modules' directory
-          key: ${{ runner.os }}-node-${{ hashFiles('work/package-lock.json') }}  # Cache key based on the OS and package-lock.json file
+          path: ./node_modules  # Cache the 'node_modules' directory from the current directory
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}  # Cache key based on the OS and package-lock.json file
           restore-keys: |
             ${{ runner.os }}-node-  # Fallback cache key for partial matches
 
       - name: Install dependencies
         if: steps.cache-node-modules.outputs.cache-hit != 'true'  # Skip if cache is hit
         run: npm install  # Install project dependencies
-        working-directory: ./work  # In the 'work' directory
 
       - name: Build the project
         run: npm run build  # Run the build command defined in package.json
-        working-directory: ./work  # Use the 'work' directory
 
       - name: Output js file
         id: publisher  # Assign an ID to reference this step's output later
-        run: find  ./work/dist/assets/*.js -type f -execdir echo 'script-file={}' >> $GITHUB_OUTPUT ';'  # Store the JavaScript file path in the output variable
+        run: find ./dist/assets/*.js -type f -execdir echo 'script-file={}' >> $GITHUB_OUTPUT ';'  # Store the JavaScript file path in the output variable
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
           name: node-artifact  # Name the artifact 'node-artifact'
-          path: ./work/dist  # Upload the 'dist' directory which contains the build
+          path: ./dist  # Upload the 'dist' directory which contains the build
+
+      - name: Start server
+        run: npm start & npx wait-on http://localhost:$PORT
+
+      - name: echo env
+        run: echo "${{ env.MONGODB_CLUSTER_ADDRESS }}"
 
   deploy:
     needs: build  # The 'deploy' job depends on the 'build' job
