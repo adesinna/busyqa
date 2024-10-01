@@ -1,0 +1,96 @@
+# action and code are in the same repo
+name: Deploy website
+on:
+  push:
+    branches:
+      - main  # Workflow triggers on push to the 'main' branch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # Run the job on the latest version of Ubuntu
+    steps:
+      - name: Check out the code from the current repo
+        uses: actions/checkout@v4  # Check out the code from the repository where this workflow is defined
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'  # Specify Node.js version to use
+
+      - name: Cache Node.js dependencies
+        uses: actions/cache@v3
+        id: cache-node-modules  # Give the cache step an ID so it can be referenced later
+        with:
+          path: ./node_modules  # Cache the 'node_modules' directory from the current directory
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}  # Generate cache key based on OS and package-lock.json hash
+          restore-keys: |
+            ${{ runner.os }}-node-  # Use a fallback key if an exact cache match is not found
+
+
+      - name: Install dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'  # Run 'npm install' only if the cache was not hit
+        run: npm install  # Install dependencies from the current directory
+
+      - name: Lint code
+        run: npm run lint  # Run the linting step
+
+      - name: Test code
+        run: npm run test  # Run the tests
+
+  build:
+    needs: test  # This ensures the 'build' job runs only after the 'test' job succeeds
+    runs-on: ubuntu-latest  # Run the job on the latest version of Ubuntu
+    outputs:
+      script-file: ${{ steps.publisher.outputs.script-file }}  # Capture the output (script file) for the deploy job
+    steps:
+      - name: Check out the code from the current repo
+        uses: actions/checkout@v4  # Check out the code from the current repository
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'  # Specify Node.js version to use
+
+      - name: Cache Node.js dependencies
+        uses: actions/cache@v3
+        id: cache-node-modules  # Use cache to speed up Node.js dependencies installation
+        with:
+          path: ./node_modules  # Cache the 'node_modules' directory from the current directory
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}  # Cache key based on the OS and package-lock.json file
+          restore-keys: |
+            ${{ runner.os }}-node-  # Fallback cache key for partial matches
+
+      - name: Install dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'  # Skip if cache is hit
+        run: npm install  # Install project dependencies
+
+      - name: Build the project
+        run: npm run build  # Run the build command defined in package.json
+
+      - name: Output js file
+        id: publisher  # Assign an ID to reference this step's output later
+        run: find ./dist/assets/*.js -type f -execdir echo 'script-file={}' >> $GITHUB_OUTPUT ';'  # Store the JavaScript file path in the output variable
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: node-artifact  # Name the artifact 'node-artifact'
+          path: ./dist  # Upload the 'dist' directory which contains the build
+
+  deploy:
+    needs: build  # The 'deploy' job depends on the 'build' job
+    runs-on: ubuntu-latest  # Run the deploy job on the latest version of Ubuntu
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: node-artifact  # Download the previously uploaded build artifacts
+
+      - name: Output artifact content
+        run: pwd && ls  # Show current directory and list contents
+
+      - name: Output referencing
+        run: echo "${{ needs.build.outputs.script-file }}"  # Output the script file name from the 'build' job
+
+      - name: Deploy
+        run: echo "Deploying..."  # Add your deployment script here

@@ -10,3 +10,6 @@ resource "aws_instance" "myinstance" {
     "Name" = "myinstance"
   }
 }
+
+
+
