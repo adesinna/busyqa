@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  customer:
+    build:
+      context: ./Customer-web
+    container_name: customer
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  admin:
+    build:
+      context: ./Admin-web
+    container_name: admin
+    ports:
+      - "3001:3000"  # Host port 3001, container port 3000
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./Polom-Backend
+    container_name: backend
+    ports:
+      - "3002:3000"  # Host port 3002, container port 3000
+    env_file:
+      - ./Polom-Backend/.env  # Path to the .env file in the backend repo

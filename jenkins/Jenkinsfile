@@ -1,0 +1,109 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKERHUB_USERNAME = "gonjeshops"
+        APP_NAME = "customer-frontend"
+        REGISTRY_CREDS = 'dockerhub'
+        IMAGE_TAG = ""  // Initialized here, dynamically assigned later
+        IMAGE_NAME = "" // Initialized here, dynamically assigned later
+    }
+
+    tools {
+        nodejs "nodejs" // Ensure the name matches Global Tool Configuration.
+    }
+
+    stages {
+        stage('Setup Environment') {
+            steps {
+                script {
+                    // Dynamically set image tag and name
+                    IMAGE_TAG = "${env.BUILD_NUMBER}"
+                    IMAGE_NAME = "${DOCKERHUB_USERNAME}/${APP_NAME}"
+                }
+            }
+        }
+
+        stage('Clean Workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+
+        stage('Checkout Source Code') {
+            steps {
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/cicd']],
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/gonjeshops/customer-frontend.git',
+                        credentialsId: 'github'
+                    ]]
+                ])
+            }
+        }
+
+        stage('Build App') {
+            steps {
+                script {
+                    dir('./') {
+                        // Install dependencies and build the app
+                        sh 'npm install --legacy-peer-deps'
+                        sh 'npm run build'
+                    }
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // Build Docker image
+                    dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    docker.withRegistry('', REGISTRY_CREDS) {
+                        dockerImage.push("${IMAGE_TAG}")
+                        dockerImage.push('latest')
+                    }
+                }
+            }
+        }
+
+        stage('Cleanup Local Docker Images') {
+            steps {
+                script {
+                    sh "docker rmi ${IMAGE_NAME}:${IMAGE_TAG} || true"
+                    sh "docker rmi ${IMAGE_NAME}:latest || true"
+                }
+            }
+        }
+
+        stage('Trigger Manifest Update Job') {
+            steps {
+                script {
+                    echo '======= Triggering customerupdatemanifest job ========'
+                    build job: 'customerupdatemanifest', parameters: [string(name: 'DOCKERTAG', value: IMAGE_TAG)]
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Cleaning up workspace and temporary files.'
+            cleanWs() // Final cleanup
+        }
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed. Investigate the logs for details.'
+        }
+    }
+}

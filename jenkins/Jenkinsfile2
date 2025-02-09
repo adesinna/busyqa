@@ -1,0 +1,64 @@
+pipeline {
+    agent any
+
+    parameters {
+        string(name: 'DOCKERTAG', defaultValue: 'latest', description: 'Docker image tag to be used in the deployment')
+    }
+
+    environment {
+        DOCKERHUB_USERNAME = "gonjeshops"
+        APP_NAME = "customer-frontend"
+        NAMESPACE = "default" // Kubernetes namespace
+        DEPLOYMENT_NAME = "customer-frontend" // Kubernetes deployment name
+    }
+
+    stages {
+        stage('Clone Repo') {
+            steps {
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/gonjeshops/customer-frontend-deployment.git',
+                        credentialsId: 'github'
+                    ]]
+                ])
+            }
+        }
+
+        stage('Update Manifest') {
+            steps {
+                script {
+                    def image = "${DOCKERHUB_USERNAME}/${APP_NAME}:${params.DOCKERTAG}"
+                    sh """
+                    sed -i 's|image: .*|image: ${image}|g' k8s/deployment.yaml
+                    """
+                }
+            }
+        }
+
+        stage('Commit and Push Changes') {
+            steps {
+                script {
+                    sh """
+                    git config user.email "jenkins@gonjeshops.com"
+                    git config user.name "Jenkins"
+                    git add k8s/deployment.yaml
+                    git commit -m "Update image tag to ${params.DOCKERTAG}"
+                    git push origin main
+                    """
+                }
+            }
+        }
+
+    }
+
+    post {
+        success {
+            echo "Deployment updated successfully to use tag ${params.DOCKERTAG}."
+        }
+        failure {
+            echo "Failed to update deployment. Check logs for errors."
+        }
+    }
+}
