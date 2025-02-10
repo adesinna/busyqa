@@ -1,0 +1,113 @@
+name: CI/CD
+on:
+  push:
+    branches:
+      - 'staging'
+  pull_request:
+    types: [closed]
+    branches:
+      - 'staging'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v3
+      - name: Set up node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Caching dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        run: npm install
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v3
+      - name: Set up node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Caching dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        run: npm install
+      - name: Build Code
+        run: npm run build
+
+  docker-build:
+    needs: build
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}  # Output the version
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-1  # Your ECR region
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Generate version tag
+        id: version
+        run: |
+          # Use GITHUB_RUN_NUMBER to generate a version tag
+          VERSION="v${{ github.run_number }}"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "version=$VERSION" >> $GITHUB_OUTPUT  # Set the output using GITHUB_OUTPUT
+          echo "Generated version: $VERSION"
+
+      - name: Build Docker image with version and latest tags
+        run: |
+          docker build -t 120569629342.dkr.ecr.eu-west-1.amazonaws.com/polom/backend:$VERSION -t 120569629342.dkr.ecr.eu-west-1.amazonaws.com/polom/backend:latest .
+
+      - name: Push Docker image to Amazon ECR
+        run: |
+          docker push 120569629342.dkr.ecr.eu-west-1.amazonaws.com/polom/backend:$VERSION
+          docker push 120569629342.dkr.ecr.eu-west-1.amazonaws.com/polom/backend:latest
+
+  deploy:
+    needs: docker-build
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH into EC2 and deploy
+        uses: appleboy/ssh-action@master # master works
+        with:
+          host: ${{ secrets.EC2_HOST }}  # EC2 instance IP or hostname
+          username: ${{ secrets.EC2_USERNAME }}  # SSH username
+          key: ${{ secrets.EC2_SSH_KEY }}  # Private SSH key for authentication
+          script: |
+            cd ~/polom
+
+            # Update the image name in docker-compose.yaml
+            sed -i "s|120569629342.dkr.ecr.eu-west-1.amazonaws.com/polom/backend:.*|120569629342.dkr.ecr.eu-west-1.amazonaws.com/polom/backend:${{ needs.docker-build.outputs.version }}|g" docker-compose.yaml
+
+            # Pull the latest Docker image
+            docker compose pull
+
+            # Deploy the updated Docker container
+            docker compose up -d --build
+
+            # Clean up unused Docker images, containers, and volumes
+            docker system prune -a -f

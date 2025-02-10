@@ -1,2 +1,1 @@
-Job Artifacts:
-    These are binaries that should be on the server
+When an app is built, it generates
